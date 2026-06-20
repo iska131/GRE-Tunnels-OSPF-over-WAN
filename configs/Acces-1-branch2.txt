@@ -1,0 +1,213 @@
+Acces-1-branch2
+version 15.0
+service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname swaccess
+!
+enable secret 5 $1$mERr$WTQc0X3zgqSHijwNbojcn1
+!
+!
+!
+ip ssh version 2
+ip domain-name lab.az
+!
+username iskender secret 5 $1$mERr$WTQc0X3zgqSHijwNbojcn1
+!
+ip arp inspection vlan 10,20
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+interface Port-channel1
+ switchport trunk native vlan 876
+ switchport trunk allowed vlan 10,20,200,876
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface Port-channel2
+ switchport trunk native vlan 876
+ switchport trunk allowed vlan 10,20,200,876
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface FastEthernet0/1
+ switchport trunk native vlan 876
+ switchport trunk allowed vlan 10,20,200,876
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 1 mode active
+!
+interface FastEthernet0/2
+ switchport trunk native vlan 876
+ switchport trunk allowed vlan 10,20,200,876
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 2 mode active
+!
+interface FastEthernet0/3
+ switchport trunk native vlan 876
+ switchport trunk allowed vlan 10,20,200,876
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 2 mode active
+!
+interface FastEthernet0/4
+ switchport trunk native vlan 876
+ switchport trunk allowed vlan 10,20,200,876
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 1 mode active
+!
+interface FastEthernet0/5
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0001.43DD.A7D3
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/6
+ switchport access vlan 10
+ switchport mode access
+ switchport port-security
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0001.43A9.A599
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/7
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/8
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/9
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/10
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/11
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/12
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/13
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/14
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/15
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/16
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/17
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/18
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/19
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/20
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/21
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/22
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/23
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/24
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet0/1
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet0/2
+ switchport access vlan 200
+ switchport mode access
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan200
+ ip address 192.168.200.1 255.255.255.0
+!
+ip default-gateway 192.168.200.254
+!
+banner motd ^Cauthorized access only^C
+logging trap debugging
+logging 192.168.50.1
+!
+!
+snmp-server community salam RW
+!
+line con 0
+ logging synchronous
+ login local
+!
+line vty 0 4
+ logging synchronous
+ login local
+ transport input ssh
+line vty 5 15
+ login
+!
+!
+!
+ntp authenticate
+ntp trusted-key 1
+ntp server 192.168.60.1
