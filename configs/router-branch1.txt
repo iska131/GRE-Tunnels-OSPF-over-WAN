@@ -1,0 +1,118 @@
+router-branch1
+service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname router1
+!
+login block-for 180 attempts 4 within 120
+!
+!
+enable secret 5 $1$mERr$WTQc0X3zgqSHijwNbojcn1
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+username iskender secret 5 $1$mERr$WTQc0X3zgqSHijwNbojcn1
+!
+!
+license udi pid CISCO2911/K9 sn FTX15249DTF-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+ip domain-name lab
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface Tunnel1
+ ip address 10.10.10.5 255.255.255.252
+ mtu 1476
+ tunnel source GigabitEthernet0/0
+ tunnel destination 85.85.85.1
+!
+!
+interface GigabitEthernet0/0
+ ip address 85.85.85.9 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 10.10.20.2 255.255.255.252
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ ip address 10.10.20.6 255.255.255.252
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ log-adjacency-changes
+ network 10.10.10.4 0.0.0.3 area 0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 85.85.85.10 200
+!
+ip flow-export version 9
+!
+!
+ip access-list extended sl_def_acl
+ deny tcp any any eq telnet
+ deny tcp any any eq www
+ deny tcp any any eq 22
+ permit tcp any any eq 22
+!
+!
+!
+!
+!
+logging trap debugging
+logging 192.168.50.1
+line con 0
+ logging synchronous
+ login local
+!
+line aux 0
+ logging synchronous
+ login local
+!
+line vty 0 4
+ logging synchronous
+ login local
+ transport input ssh
+!
+!
+ntp authentication-key 1 md5 082A4957 7
+ntp authenticate
+ntp trusted-key 1
+ntp server 192.168.60.1
+!
+end
